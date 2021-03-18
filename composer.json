@@ -15,5 +15,10 @@
     "psr-4": {
       "Mindscreen\\JsonReports\\": "Classes/"
     }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "json_reports"
+    }
   }
 }
