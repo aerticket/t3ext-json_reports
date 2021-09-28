@@ -1,7 +1,5 @@
 <?php
 
-use Mindscreen\JsonReports\Command\ReportsCommandController;
-use Mindscreen\JsonReports\Controller\ReportsController;
 use Mindscreen\JsonReports\Output\Json;
 use Mindscreen\JsonReports\Output\Nagios;
 
@@ -25,10 +23,3 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['json_reports']['groups']['default'] = [
     'include' => ['*'],
     'exclude' => [],
 ];
-
-// Register eID Script
-$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['json_reports'] = ReportsController::class . '::indexAction';
-
-if (TYPO3_MODE === 'BE') {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = ReportsCommandController::class;
-}

@@ -1,26 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace Mindscreen\JsonReports\Output;
 
-/**
- * Output interface
- */
 interface OutputInterface
 {
 
     /**
-     * OutputInterface constructor.
-     * @param $reportData
+     * @param array<string, array<StatusItem>> $reportData
      */
-    public function __construct($reportData);
+    public function __construct(array $reportData);
 
-    /**
-     * @return string
-     */
-    public function getText();
+    public function getText(): string;
 
-    /**
-     * @return int
-     */
-    public function getExitCode();
+    public function getExitCode(): int;
 }

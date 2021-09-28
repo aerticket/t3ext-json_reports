@@ -1,25 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace Mindscreen\JsonReports\Output;
 
-/**
- * JSON output for reports
- */
 class Json extends AbstractOutput
 {
 
-    /**
-     * @return string
-     */
-    public function getText()
+    public function getText(): string
     {
-        return json_encode($this->reportData);
+        return json_encode($this->reportData, JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * @return int
-     */
-    public function getExitCode()
+    public function getExitCode(): int
     {
         return 0;
     }
