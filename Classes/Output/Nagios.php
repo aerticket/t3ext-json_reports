@@ -1,17 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace Mindscreen\JsonReports\Output;
 
 use TYPO3\CMS\Reports\Status;
 
-/**
- * JSON output for reports
- */
 class Nagios extends AbstractOutput
 {
 
     /**
-     * @var array
+     * @var array<string|int, int>
      */
     protected $count = [
         '-2' => 0,
@@ -22,35 +20,29 @@ class Nagios extends AbstractOutput
     ];
 
     /**
-     * @var array
+     * @var array<mixed>
      */
     protected $messages = [];
 
-    /**
-     * @param $reportData
-     */
-    public function __construct($reportData)
+    public function __construct(array $reportData)
     {
         parent::__construct($reportData);
 
         $warnings = [];
         foreach ($reportData as $reportCategory) {
             foreach ($reportCategory as $status) {
-                $this->count[(string)$status['severity']]++;
-                if ($status['severity'] === Status::ERROR) {
-                    $this->messages[] = $status['title'] . ': ' . $status['value'] . ';';
-                } elseif ($status['severity'] == Status::WARNING) {
-                    $warnings[] = $status['title'] . ': ' . $status['value'] . ';';
+                $this->count[(string)$status->getSeverity()]++;
+                if ($status->getSeverity() === (string)Status::ERROR) {
+                    $this->messages[] = $status->getTitle() . ': ' . $status->getValue() . ';';
+                } elseif ($status->getSeverity() === (string)Status::WARNING) {
+                    $warnings[] = $status->getTitle() . ': ' . $status->getValue() . ';';
                 }
             }
         }
         $this->messages = array_merge($this->messages, $warnings);
     }
 
-    /**
-     * @return string
-     */
-    public function getText()
+    public function getText(): string
     {
         if ($this->count['1'] === 0 && $this->count['2'] === 0) {
             $textOutput = 'No warnings or errors in TYPO3 reports';
@@ -65,10 +57,7 @@ class Nagios extends AbstractOutput
         return $textOutput . ' | ' . $performanceData . PHP_EOL . implode(PHP_EOL, $this->messages);
     }
 
-    /**
-     * @return int
-     */
-    public function getExitCode()
+    public function getExitCode(): int
     {
         if ($this->count['1'] === 0 && $this->count['2'] === 0) {
             $returnCode = 0;

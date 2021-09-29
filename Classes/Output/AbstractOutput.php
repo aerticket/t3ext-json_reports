@@ -1,22 +1,20 @@
 <?php
+declare(strict_types=1);
 
 namespace Mindscreen\JsonReports\Output;
 
-/**
- * JSON output for reports
- */
 abstract class AbstractOutput implements OutputInterface
 {
 
     /**
-     * @var array
+     * @var array<string, array<StatusItem>>
      */
     protected $reportData;
 
     /**
-     * @param $reportData
+     * @param array<string, array<StatusItem>> $reportData
      */
-    public function __construct($reportData)
+    public function __construct(array $reportData)
     {
         $this->reportData = $reportData;
     }
